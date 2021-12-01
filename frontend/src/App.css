@@ -1,0 +1,79 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    padding-top: 5rem;
+    background: url("./assets/images/bg_02.png") rgba(0, 0, 0, 0.8);
+    background-attachment: fixed;
+}
+
+@media (max-width: 800px) {
+    body {
+        padding-top: 8rem;
+    }
+}
+
+body,
+div {
+    color: #080f17;
+}
+
+titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 2rem;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.main {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding-bottom: 4rem;
+}
+
+.main>* {
+    color: white;
+}
+
+select+label,
+select:focus+label,
+textarea+label,
+textarea:focus+label,
+input+label,
+input:focus+label {
+    color: purple;
+}
+
+.form-control:focus {
+    background-color: #fff !important;
+    border-color: #e30eff !important;
+    box-shadow: 0 0 0 .25rem #e464dd40 !important;
+}
+
+.form-select:focus,
+.select-wrapper input.active,
+.select-dropdown:focus {
+    border-color: #e30eff !important;
+    box-shadow: 0 0 0 .25rem #e464dd40 !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: purple !important;
+    background-color: #e7f1ff !important;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125) !important;
+}
+
+.img-galeria {
+    max-height: 230px;
+}
+
+.carousel {
+    text-shadow: 2px 2px 4px black;
+}
+
+#mensaje {
+    min-height: 348px;
+}

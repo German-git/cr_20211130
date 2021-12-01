@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col col-12">
+        <div class="btn-group btn-group-sm mt-2 mb-2" role="group" aria-label="">
+            <a type="button" class="btn btn-primary" href="/admin/juegos/agregar">Agregar</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Género</th>
+                    <th>Es gratis</th>
+                    <th>Valoración</th>
+                    <th>Recomendado</th>
+
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each juegos}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{nombre}}</td>
+                    <td>{{genero}}</td>
+                    <td>{{#if gratis}} Si {{else}} No {{/if}}</td>
+                    <td>{{valoracion}}</td>
+                    <td>{{#if recomendado}} Si {{else}} No {{/if}}</td>
+
+                    <td>
+                        <div class="btn-group btn-group-sm mt-2 mb-2">
+                            <a type="button" class="btn btn-danger" href="/admin/juegos/eliminar/{{id}}">Eliminar</a>
+                            <a type="button" class="btn btn-warning" href="/admin/juegos/modificar/{{id}}">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>

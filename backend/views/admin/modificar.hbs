@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col col-12">
+        <h5>Modificar juego</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-12">
+        <form action="/admin/juegos/modificar" method="post" class="d-grid gap-2">
+            <div class="form-group">
+                <input type="hidden" id="id" name="id" value="{{novedad.id}}">
+
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{novedad.nombre}}" placeholder="Nombre..."
+                    title="Nombre">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="id_genero">Seleccione un género</label>
+                </div>
+                <select class="form-select" id="id_genero" name="id_genero">
+                    <option value="">-</option>
+                    {{#each generos}}
+
+                        {{ifeq id novedad.id_genero}}
+                        <option value="{{id}}">{{nombre}}</option>
+
+                    {{/each}}
+                </select>
+                        
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="id_genero">Valoración</label>
+                </div>
+                <select class="form-select" id="valoracion" name="valoracion">
+                    {{#each arrValoracion}}
+                    <option value="{{valor}}">{{nombre}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="btn-group" role="group" aria-label="">
+                <input type="checkbox" class="btn-check" id="gratis" name="gratis" value="1">
+                <label class="btn btn-outline-success" for="gratis">Es gratis</label>
+
+                <input type="checkbox" class="btn-check" id="recomendado" name="recomendado" value="1"
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="recomendado">Es recomendado</label>
+                
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" id="nota" name="nota" placeholder="Nota..." rows="8">{{novedad.nota}}</textarea>
+            </div>
+
+            <div class="btn-group" role="group" aria-label="">
+                <button type="button" class="btn btn-secondary" id="btn-cancelar" onclick="history.back()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btn-guardar">Guardar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col col-12">
+        {{#if error}}
+        <div class="alert alert-danger" role="alert">
+            {{{message}}}
+        </div>
+        {{/if}}
+    </div>
+</div>
