@@ -41,16 +41,22 @@
                 </div>
                 <select class="form-select" id="valoracion" name="valoracion">
                     {{#each arrValoracion}}
-                    <option value="{{valor}}">{{nombre}}</option>
+                        {{#ifEq valor ../novedad.valoracion}}
+                        <option value="{{valor}}" selected>{{nombre}}</option>
+                        {{/ifEq}}
+                        
+                        {{#ifNotEq id ../novedad.valoracion}}
+                        <option value="{{valor}}">{{nombre}}</option>
+                        {{/ifNotEq}}
                     {{/each}}
                 </select>
             </div>
 
             <div class="btn-group" role="group" aria-label="">
-                <input type="checkbox" class="btn-check" id="gratis" name="gratis" value="1">
+                <input type="checkbox" class="btn-check" id="gratis" name="gratis" value="1" {{#ifEq 1 novedad.gratis}} checked {{/ifEq}}>
                 <label class="btn btn-outline-success" for="gratis">Es gratis</label>
 
-                <input type="checkbox" class="btn-check" id="recomendado" name="recomendado" value="1"
+                <input type="checkbox" class="btn-check" id="recomendado" name="recomendado" value="1" {{#ifEq 1 novedad.recomendado}} checked {{/ifEq}}
                     autocomplete="off">
                 <label class="btn btn-outline-primary" for="recomendado">Es recomendado</label>
                 
