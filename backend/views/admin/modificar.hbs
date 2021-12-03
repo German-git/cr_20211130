@@ -45,7 +45,7 @@
                         <option value="{{valor}}" selected>{{nombre}}</option>
                         {{/ifEq}}
                         
-                        {{#ifNotEq id ../novedad.valoracion}}
+                        {{#ifNotEq valor ../novedad.valoracion}}
                         <option value="{{valor}}">{{nombre}}</option>
                         {{/ifNotEq}}
                     {{/each}}
