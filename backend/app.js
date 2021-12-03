@@ -15,7 +15,8 @@ var loginRouter = require('./routes/admin/login');
 var juegosRouter = require('./routes/admin/juegos');
 
 var app = express();
-//var exphbs = require("express-handlebars");
+
+var Handlebars = require('hbs');
 
 
 
@@ -75,17 +76,11 @@ app.use(function(err, req, res, next) {
 
 // helpers
 
-Handlebars.registerHelper ('truncate', function (str, len) {
-    if (str.length > len && str.length > 0) {
-        var new_str = str + " ";
-        new_str = str.substr (0, len);
-        new_str = str.substr (0, new_str.lastIndexOf(" "));
-        new_str = (new_str.length > 0) ? new_str : str.substr (0, len);
+HBHelpers = require('./helpers/handlebars');
 
-        return new Handlebars.SafeString ( new_str +'...' ); 
-    }
-    return str;
-});
+Handlebars.registerHelper('truncate', HBHelpers.truncate);
+Handlebars.registerHelper('ifEq', HBHelpers.ifEq);
+Handlebars.registerHelper('ifNotEq', HBHelpers.ifNotEq);
 
 
 module.exports = app;

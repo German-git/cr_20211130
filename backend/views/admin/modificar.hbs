@@ -22,8 +22,13 @@
                     <option value="">-</option>
                     {{#each generos}}
 
-                        {{ifeq id novedad.id_genero}}
+                        {{#ifEq id ../novedad.id_genero}}
+                        <option value="{{id}}" selected>{{nombre}}</option>
+                        {{/ifEq}}
+                        
+                        {{#ifNotEq id ../novedad.id_genero}}
                         <option value="{{id}}">{{nombre}}</option>
+                        {{/ifNotEq}}
 
                     {{/each}}
                 </select>
