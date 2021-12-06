@@ -6,10 +6,15 @@
 
 <div class="row">
     <div class="col col-12">
-        <form action="/admin/juegos/agregar" method="post" class="d-grid gap-2">
+        <form action="/admin/juegos/agregar" method="post" enctype="multipart/form-data" class="d-grid gap-2">
             <div class="form-group">
                 <input type="text" class="form-control" id="nombre" name="nombre" value="" placeholder="Nombre..."
                     title="Nombre">
+            </div>
+
+            <div class="form-group">
+                <input type="file" class="form-control" id="imagen" name="imagen" value="" placeholder="Imagen..."
+                    title="Imagen">
             </div>
 
             <div class="input-group">

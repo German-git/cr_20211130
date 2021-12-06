@@ -1,6 +1,6 @@
 var Handlebars = require('hbs');
 
-var truncate = function(str, len){
+const truncate = function(str, len){
     if (str.length > len && str.length > 0) {
         var new_str = str + " ";
         new_str = str.substr (0, len);
@@ -13,9 +13,8 @@ var truncate = function(str, len){
     return str;
 }
 
-var ifEq = function(a, b, options) {
+const ifEq = function(a, b, options) {
 
-    console.log(a, b);
     if (a == b) {
         return options.fn(this);
     } else {
@@ -23,9 +22,8 @@ var ifEq = function(a, b, options) {
     }
 };
 
-var ifNotEq = function(a, b, options) {
+const ifNotEq = function(a, b, options) {
 
-    console.log(a, b);
     if (a != b) {
         return options.fn(this);
     } else {

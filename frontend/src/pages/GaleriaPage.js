@@ -1,9 +1,36 @@
+import React, {useState, useEffect} from 'react';
+import axios from 'axios'
+
 import PageTitle from '../components/layout/PageTitle'
 import AccordionGaleriaPage from '../components/layout/AccordionGaleriaPage'
 import CardGaleriaPage from '../components/layout/CardGaleriaPage'
+import JuegoItem from '../components/juegos/JuegoItem'
 
 const GaleriaPage = (props) => {
+    const urlJuegos = 'http://localhost:3000/api/juegos';
 
+    const [loading, setLoading] = useState(false);
+    const [juegos, setJuegos] = useState([]);
+
+    const cargarJuegos = async () => {
+        setLoading(true);
+        const response = await axios.get(urlJuegos);
+        setJuegos(response.data);
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        
+
+        cargarJuegos();
+    }, []);
+
+    const buscar = function(){
+        const txtBuscar = document.getElementById('txtBuscar').value;
+        cargarJuegos();
+    }
+
+    /*
     const arrCards = [
         {
             title: 'Pillars of Eternity II: Deadfire',
@@ -69,6 +96,7 @@ const GaleriaPage = (props) => {
             free: 1
         },
     ]
+    */
 
     const armarCards = (arrCards) => {
         let arrListado = [];
@@ -95,12 +123,22 @@ const GaleriaPage = (props) => {
 
             <div class="row">
                 <div class="col col-sm-12">
-                    <AccordionGaleriaPage />
+                    <AccordionGaleriaPage buscar={buscar}/>
                 </div>
             </div>
 
             <div class="row g-2 mt-2 text-start">
-                {armarCards(arrCards)}
+                {loading ? (<p>cargando...</p>) : (
+                    juegos.map(
+                        item => <JuegoItem 
+                                    nombre = {item.nombre} id_genero={item.id_genero} genero={item.genero} gratis={item.gratis} 
+                                    valoracion={item.valoracion} recomendado={item.recomendado} nota={item.nota} 
+                                    img_id={item.img_id} imagen={item.imagen}
+                                />
+                        )
+                )}
+
+                {/*armarCards(arrCards)*/}
             </div>
 
         </div>

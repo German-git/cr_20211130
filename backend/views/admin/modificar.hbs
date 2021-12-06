@@ -6,12 +6,23 @@
 
 <div class="row">
     <div class="col col-12">
-        <form action="/admin/juegos/modificar" method="post" class="d-grid gap-2">
+        <form action="/admin/juegos/modificar" method="post" enctype="multipart/form-data" class="d-grid gap-2">
             <div class="form-group">
-                <input type="hidden" id="id" name="id" value="{{novedad.id}}">
+                <input type="hidden" id="id" name="id" value="{{juego.id}}">
 
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{{novedad.nombre}}" placeholder="Nombre..."
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{juego.nombre}}" placeholder="Nombre..."
                     title="Nombre">
+            </div>
+
+            <div class="input-group">
+                <input type="file" class="form-control" id="imagen" name="imagen" value="" placeholder="Imagen..."
+                    title="Imagen">
+
+                <div class="input-group-append">
+                    <input type="hidden" class="btn-check" id="img_id_actual" name="img_id_actual" value="{{juego.img_id}}" >
+                    <input type="checkbox" class="btn-check" id="eliminar_img" name="eliminar_img" value="1" >
+                    <label class="btn btn-outline-danger" for="eliminar_img">Eliminar imagen actual</label>
+                </div>
             </div>
 
             <div class="input-group">
@@ -22,11 +33,11 @@
                     <option value="">-</option>
                     {{#each generos}}
 
-                        {{#ifEq id ../novedad.id_genero}}
+                        {{#ifEq id ../juego.id_genero}}
                         <option value="{{id}}" selected>{{nombre}}</option>
                         {{/ifEq}}
                         
-                        {{#ifNotEq id ../novedad.id_genero}}
+                        {{#ifNotEq id ../juego.id_genero}}
                         <option value="{{id}}">{{nombre}}</option>
                         {{/ifNotEq}}
 
@@ -41,11 +52,11 @@
                 </div>
                 <select class="form-select" id="valoracion" name="valoracion">
                     {{#each arrValoracion}}
-                        {{#ifEq valor ../novedad.valoracion}}
+                        {{#ifEq valor ../juego.valoracion}}
                         <option value="{{valor}}" selected>{{nombre}}</option>
                         {{/ifEq}}
                         
-                        {{#ifNotEq valor ../novedad.valoracion}}
+                        {{#ifNotEq valor ../juego.valoracion}}
                         <option value="{{valor}}">{{nombre}}</option>
                         {{/ifNotEq}}
                     {{/each}}
@@ -53,17 +64,17 @@
             </div>
 
             <div class="btn-group" role="group" aria-label="">
-                <input type="checkbox" class="btn-check" id="gratis" name="gratis" value="1" {{#ifEq 1 novedad.gratis}} checked {{/ifEq}}>
+                <input type="checkbox" class="btn-check" id="gratis" name="gratis" value="1" {{#ifEq 1 juego.gratis}} checked {{/ifEq}}>
                 <label class="btn btn-outline-success" for="gratis">Es gratis</label>
 
-                <input type="checkbox" class="btn-check" id="recomendado" name="recomendado" value="1" {{#ifEq 1 novedad.recomendado}} checked {{/ifEq}}
+                <input type="checkbox" class="btn-check" id="recomendado" name="recomendado" value="1" {{#ifEq 1 juego.recomendado}} checked {{/ifEq}}
                     autocomplete="off">
                 <label class="btn btn-outline-primary" for="recomendado">Es recomendado</label>
                 
             </div>
 
             <div class="form-group">
-                <textarea class="form-control" id="nota" name="nota" placeholder="Nota..." rows="8">{{novedad.nota}}</textarea>
+                <textarea class="form-control" id="nota" name="nota" placeholder="Nota..." rows="8">{{juego.nota}}</textarea>
             </div>
 
             <div class="btn-group" role="group" aria-label="">

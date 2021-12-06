@@ -6,7 +6,7 @@ async function getGeneros(){
         query += 'SELECT * FROM generos WHERE inactivo = 0 ORDER BY nombre';
 
         const rows = await pool.query(query);
-        console.log('generos:', rows);
+        
         return rows;
     } catch(error){
         console.log(error);
@@ -34,6 +34,23 @@ async function getJuegos(){
         query += ' FROM juegos AS jue';
         query += ' LEFT JOIN generos AS gen ON gen.id = jue.id_genero';
         query += ' WHERE jue.inactivo = 0 ORDER BY jue.nombre';
+
+        const rows = await pool.query(query);
+        return rows;
+    } catch(error){
+        console.log(error);
+    }
+}
+
+async function getRecomendados(){
+    try {
+        let query = '';
+        query += 'SELECT';
+        query += ' jue.*,';
+        query += ' gen.nombre AS genero';
+        query += ' FROM juegos AS jue';
+        query += ' LEFT JOIN generos AS gen ON gen.id = jue.id_genero';
+        query += ' WHERE (jue.inactivo = 0 AND recomendado = 1) ORDER BY jue.nombre';
 
         const rows = await pool.query(query);
         return rows;
@@ -72,15 +89,27 @@ async function deleteJuegoById(id){
 }
 
 async function updateJuegoById(obj, id){
+
+    let result = {
+        error: false,
+        mensajes: new Array(),
+        error_detalles: null
+    }
+
     try {
         let query = 'UPDATE juegos SET ? WHERE (id = ?)';
 
         await pool.query(query, [obj, id]);
-        //return rows;
+        result.mensajes.push("Datos actualizados")
         
     } catch(error){
-        console.log(error);
+        
+        result.error = true;
+        result.mensajes.push("No fue posible actualizar los datos.")
+        result.error_detalles = error
     }
+
+    return result;
 }
 
-module.exports = {getGeneros, insertJuego, getJuegos, getJuegoById, deleteJuegoById}
+module.exports = {getGeneros, insertJuego, getJuegos, getJuegoById, updateJuegoById, deleteJuegoById, getRecomendados}

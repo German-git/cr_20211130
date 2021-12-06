@@ -1,34 +1,40 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
 require('dotenv').config();
-var session = require('express-session');
+const session = require('express-session');
 const { engine } = require('express-handlebars');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
 
-var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin/juegos');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/admin/login');
-var juegosRouter = require('./routes/admin/juegos');
+const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin/juegos');
+const usersRouter = require('./routes/users');
+const loginRouter = require('./routes/admin/login');
+const juegosRouter = require('./routes/admin/juegos');
+const apiRouter = require('./routes/api');
 
-var app = express();
+const app = express();
 
-var Handlebars = require('hbs');
-
-
+const Handlebars = require('hbs');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// extra setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 
 app.use(session({
     secret: 'c850af029e7721711c90077947bc6847',
@@ -38,7 +44,6 @@ app.use(session({
 
 secured = async(req, res, next) => {
     try {
-        console.log('req.session.id_usuario:', req.session.id_usuario);
 
         if (req.session.id_usuario) {
             next();
@@ -56,6 +61,7 @@ app.use('/users', usersRouter);
 app.use('/admin/login', loginRouter);
 app.use('/admin/juegos', secured, juegosRouter);
 app.use('/admin', secured, adminRouter);
+app.use('/api', cors(), apiRouter);
 
 
 // catch 404 and forward to error handler

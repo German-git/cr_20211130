@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
+var util = require('util');
+var cloudinary = require('cloudinary').v2;
+const uploader = util.promisify(cloudinary.uploader.upload);
+const destroy = util.promisify(cloudinary.uploader.destroy);
+
 var juegosModel = require('../../models/juegosModel');
 
 // variables predeterminadas
@@ -48,6 +53,25 @@ router.get('/', async function(req, res, next) {
 
     var juegos = await juegosModel.getJuegos();
 
+    juegos = juegos.map(juego => {
+        if(juego.img_id){
+            const imagen = cloudinary.image(juego.img_id, {
+                width: 96,
+                height: 96,
+                crop: 'fill'
+            });
+
+            return {
+                ...juego, imagen
+            }
+        } else {
+            return {
+                ...juego,
+                imagen: ''
+            }
+        }
+    });
+
     res.render('admin/juegos', {
         layout: 'admin/layoutLogged',
         titulo: 'Galería',
@@ -70,6 +94,13 @@ router.get('/agregar', async function(req, res, next) {
 
 router.post('/agregar', async function(req, res, next) {
 
+    let img_id = null;
+
+    if (req.files && Object.keys(req.files).length > 0) {
+        const imagen = req.files.imagen;
+        img_id = (await uploader(imagen.tempFilePath)).public_id
+    }
+
     const generos = await juegosModel.getGeneros();
 
     try {
@@ -88,6 +119,7 @@ router.post('/agregar', async function(req, res, next) {
 
         } else {
 
+            req.body.img_id = img_id
             await juegosModel.insertJuego(req.body)
 
             res.redirect('/admin/juegos');
@@ -123,25 +155,89 @@ router.get('/eliminar/:id', async function(req, res, next) {
 
 
 router.get('/modificar/:id', async function(req, res, next) {
-    const ifeq = function(a, b){return a == b}
 
     const generos = await juegosModel.getGeneros();
-
-    const novedad = await juegosModel.getJuegoById(req.params.id);
+    const juego = await juegosModel.getJuegoById(req.params.id);
 
     res.render('admin/modificar', {
         layout: 'admin/layoutLogged',
         titulo: 'Galería',
         generos: generos,
         arrValoracion: arrValoracion,
-        novedad,
-        helpers: {
-            ifeq: function(arg1, arg2, options){
-                return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-            }
-        }
+        juego,
     });
-    
+
+});
+
+router.post('/modificar', async function(req, res, next) {
+    try {
+
+        let img_id = req.body.img_id_actual === '' ? null : req.body.img_id_actual;
+        let eliminar_imagen = false;
+        if(req.body.eliminar_img){
+            img_id = null;
+            eliminar_imagen = true;
+        } else {
+            if (req.files && Object.keys(req.files).length > 0) {
+                const imagen = req.files.imagen;
+                img_id = (await uploader(imagen.tempFilePath)).public_id;
+
+                eliminar_imagen = true;
+            }
+
+        }
+
+        if(eliminar_imagen && req.body.img_id_actual){
+            await(destroy(req.body.img_id_actual))
+        }
+
+        const obj = {
+            nombre: req.body.nombre,
+            id_genero: req.body.id_genero,
+            gratis: req.body.gratis ? 1 : 0,
+            valoracion: req.body.valoracion,
+            recomendado: req.body.recomendado ? 1 : 0,
+            nota: req.body.nota,
+            img_id: img_id
+        }
+
+        const result = await juegosModel.updateJuegoById(obj, req.body.id);
+
+        if (result.error) {
+            console.log(result.error_detalles);
+
+            const generos = await juegosModel.getGeneros();
+            const novedad = await juegosModel.getJuegoById(req.params.id);
+
+            res.render('admin/modificar', {
+                layout: 'admin/layoutLogged',
+                titulo: 'Galería',
+                generos: generos,
+                arrValoracion: arrValoracion,
+                error: true,
+                message: 'No fue posible modificar el juego'
+            })
+
+        } else {
+            res.redirect('/admin/juegos');
+        }
+
+
+    } catch (err) {
+        console.log(err);
+
+        res.render('admin/modificar', {
+            layout: 'admin/layoutLogged',
+            titulo: 'Galería',
+            generos: generos,
+            arrValoracion: arrValoracion,
+            error: true,
+            message: 'No fue posible modificar el juego'
+        })
+
+    }
+
+
 });
 
 module.exports = router;

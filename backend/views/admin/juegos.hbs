@@ -14,13 +14,15 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Género</th>
-                    <th>Es gratis</th>
-                    <th>Valoración</th>
-                    <th>Recomendado</th>
+                    <th style="max-width: 100px;">Es gratis</th>
+                    <th style="max-width: 100px;">Valoración</th>
+                    <th style="max-width: 100px;">Recomendado</th>
 
                     <th>Nota</th>
 
-                    <th>Opciones</th>
+                    <th style="max-width: 128px;">Imagen</th>
+
+                    <th style="max-width: 200px;">Opciones</th>
                 </tr>
             </thead>
 
@@ -34,7 +36,9 @@
                     <td>{{valoracion}}</td>
                     <td>{{#if recomendado}} Si {{else}} No {{/if}}</td>
 
-                    <td>{{truncate nota 30}}</td>
+                    <td>{{truncate nota 15}}</td>
+
+                    <td>{{{imagen}}}</td>
 
                     <td>
                         <div class="btn-group btn-group-sm mt-2 mb-2">
