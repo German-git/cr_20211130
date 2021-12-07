@@ -11,7 +11,14 @@ import GaleriaPage from './pages/GaleriaPage'
 import RecomendadosPage from './pages/RecomendadosPage'
 import ContactoPage from './pages/ContactoPage'
 
+import React, {useState, useEffect} from 'react';
+
 function App() {
+
+  useEffect(() => {
+    document.title = "Tux juegos"
+  }, []);
+
   return (
     <div className="App">
       <Router>
