@@ -1,4 +1,4 @@
-import { Accordion, Button, Form} from 'react-bootstrap';
+import { Accordion, Button} from 'react-bootstrap';
 
 const AccordionGaleriaPage = (props) => {
 
@@ -13,51 +13,7 @@ const AccordionGaleriaPage = (props) => {
                 </div>
                 </Accordion.Body>
             </Accordion.Item>
-            <Accordion.Item eventKey="1">
-                <Accordion.Header>Buscar por género</Accordion.Header>
-                <Accordion.Body>
-                    <div class="col col-md-2">
-                        <Form.Check
-                            type="checkbox"
-                            id="chkFps"
-                            label="FPS"
-                        />
-                    </div>
-                    
-                    <div class="col col-md-2">
-                        <Form.Check
-                            type="checkbox"
-                            id="chkRpg"
-                            label="RPG"
-                        />
-                    </div>
-
-                    <div class="col col-md-2">
-                        <Form.Check
-                            type="checkbox"
-                            id="chkStrategy"
-                            label="Strategy"
-                        />
-                    </div>
-
-                    <div class="col col-md-2">
-                        <Form.Check
-                            type="checkbox"
-                            id="chkPlatform"
-                            label="Platform"
-                        />
-                    </div>
-
-                    <div class="col col-md-2">
-                        <Form.Check
-                            type="checkbox"
-                            id="chkFighting"
-                            label="Fighting"
-                        />
-                    </div>
-
-                </Accordion.Body>
-            </Accordion.Item>
+            
         </Accordion>
     )
 }

@@ -25,7 +25,16 @@ async function insertJuego(obj){
     }
 }
 
-async function getJuegos(){
+async function getJuegos(nombre=''){
+    let objValores = new Array();
+    let consulta = ' WHERE (jue.inactivo = ?)';
+    objValores.push(0);
+
+    if(nombre !== ''){
+        consulta += ' AND (jue.nombre LIKE ?)';
+        objValores.push('%' + nombre + '%');
+    }
+
     try {
         let query = '';
         query += 'SELECT';
@@ -33,9 +42,10 @@ async function getJuegos(){
         query += ' gen.nombre AS genero';
         query += ' FROM juegos AS jue';
         query += ' LEFT JOIN generos AS gen ON gen.id = jue.id_genero';
-        query += ' WHERE jue.inactivo = 0 ORDER BY jue.nombre';
+        query += consulta;
+        query += ' ORDER BY jue.nombre';
 
-        const rows = await pool.query(query);
+        const rows = await pool.query(query, objValores);
         return rows;
     } catch(error){
         console.log(error);

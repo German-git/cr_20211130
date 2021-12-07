@@ -1,24 +1,8 @@
-import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { BsStar, BsFillStarFill } from "react-icons/bs";
+import { Card } from 'react-bootstrap';
 //import NewLineToText from 'NewLineToText';
 import NewLineToText from './NewLineToText';
 
 const CardRecomendadosPage = (props) => {
-
-    const armarValoracion = (valoracion) => {
-        
-        let arrValoracion = [];
-
-        for(let v = 1; v < 6; ++v){
-            if(valoracion >= v){
-                arrValoracion.push(<BsFillStarFill />)
-            } else {
-                arrValoracion.push(<BsStar />)
-            }
-        }
-
-        return arrValoracion;
-    }
 
     return(
         <Card style={{ width: '', maxHeight: '' }}>
